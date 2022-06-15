@@ -2,7 +2,9 @@ from tkinter import *
 import random
 from PIL import Image, ImageTk
 
-names_list = []
+names = []
+global questions_answer
+asked =  []
 
 
 #dictianary has key of number( for each question number) and : the value for each is a list that has 7 items, so index 0 to 6
@@ -88,38 +90,17 @@ questions_answers = {
          '6' #item 6, index 5 will be the write statement we need to display the right statement if the users enters wrong choice
         ,1], #item 7,index 6 will be the position of the right answer (index whre right answer sits), this will be out check if answer is correct or not
   
-  
-  
+  }
 
-  
-}
+def randomiser():
+  global qnum 
+  qnum = random.randint(1,10)
+  if qnum not in asked:
+      asked.append(qnum)
+  elif qnum in asked:
+      randomiser()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
 
 
 
@@ -141,11 +122,72 @@ class QuizStarter:
 
   def name_collection(self):
     name = self.entry_box.get()
-    names_list.append(name)
-    print(names_list)
-    #Quiz(root)
+    names.append(names)
+    print(names)
+    self.entry_box.destroy()
+    self.continue_button.destroy()
+    image_label.destroy()
+    Quiz(root)
 
 
+
+class Quiz:
+  def __init__(self, parent):
+    background_color="darkorange"
+    self.var1 = IntVar()
+
+    self.quiz_frame=Frame(parent, bg = background_color, padx=40, pady=40)
+    self.quiz_frame.grid()
+    randomiser()
+    self.question_label=Label(self.quiz_frame, text= questions_answers[qnum][0], font=("Helvetica","16"),bg=background_color)
+    self.question_label.grid(row=1, padx=10, pady=10)
+
+    
+
+    #Radio button 1
+    self.rb1= Radiobutton(self.quiz_frame, text=questions_answers[qnum][1], font=("Helvetica","11"), bg=background_color,value=1,padx=10,pady=10,
+                variable=self.var1, background = background_color)
+    self.rb1.grid(row=2, sticky=W)
+     
+    #Radio button 2
+    self.rb2= Radiobutton(self.quiz_frame, text=questions_answers[qnum][2], font=("Noto Serif","11"), bg=background_color,value=2,padx=10,pady=10,
+                variable=self.var1, background = background_color)
+    self.rb2.grid(row=3, sticky=W)
+
+    #Radio button 3
+    self.rb3= Radiobutton(self.quiz_frame, text=questions_answers[qnum][3], font=("Noto Serif","11"), bg=background_color,value=3,padx=10,pady=10,
+                variable=self.var1, background = background_color)
+    self.rb3.grid(row=4, sticky=W)
+     
+    #Radio button 4
+    self.rb4= Radiobutton(self.quiz_frame, text=questions_answers[qnum][4], font=("Noto Serif","11"), bg=background_color,value=4,padx=10,pady=10,
+                variable=self.var1, background = background_color)
+    self.rb4.grid(row=5, sticky=W)
+
+
+    #confirm Button
+    self.quiz_instance= Button(self.quiz_frame, text="Confirm", font=("Noto Serif", "12", "bold"), bg="SpringGreen3")#, command=self.test_progress)
+    self.quiz_instance.grid(row=7, padx=5, pady=5)
+
+    #score Label
+    self.score_label=Label(self.quiz_frame, text="SCORE", font=("Tw Cen MT", "16"), bg=background_color,)
+    self.score_label.grid(row=8, padx=10, pady=1)
+
+  def question_setup(self):
+        randomiser()
+        self.var.set(0)
+        self.question_label.config(text=questions_answers[qnum][0])
+        self.rb1.config(text=questions_answers[qnum][1])
+        self.rb1.config(text=questions_answers[qnum][2])
+        self.rb1.config(text=questions_answers[qnum][3])
+        self.rb1.config(text=questions_answers[qnum][4])
+        self.rb1.config(text=questions_answers[qnum][5])
+        self.rb1.config(text=questions_answers[qnum][6])
+        self.rb1.config(text=questions_answers[qnum][7])
+        self.rb1.config(text=questions_answers[qnum][8])
+        self.rb1.config(text=questions_answers[qnum][9])
+        self.rb1.config(text=questions_answers[qnum][10])
+    
 
 
 #************** Starting Point of Program *************#
