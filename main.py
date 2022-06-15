@@ -113,11 +113,11 @@ class QuizStarter:
  
   
     #users input is taken by an Entry Widget
-    self.entry_box=Entry(parent)
+    self.entry_box=Entry(window)
     self.entry_box.place(x=325, y=210)
 
   #continue Button
-    self.continue_button = Button (parent, text="START QUIZ", bg="azure3", command=self.name_collection)
+    self.continue_button = Button (window, text="START QUIZ", bg="azure3", command=self.name_collection)
     self.continue_button.place(x=355, y=250)
 
   def name_collection(self):
@@ -127,7 +127,7 @@ class QuizStarter:
     self.entry_box.destroy()
     self.continue_button.destroy()
     image_label.destroy()
-    Quiz(root)
+    Quiz(window)
 
 
 
@@ -139,41 +139,41 @@ class Quiz:
     self.quiz_frame=Frame(parent, bg = background_color, padx=40, pady=40)
     self.quiz_frame.grid()
     randomiser()
-    self.question_label=Label(self.quiz_frame, text= questions_answers[qnum][0], font=("Helvetica","16"),bg=background_color)
+    self.question_label=Label(window, text= questions_answers[qnum][0], font=("Helvetica","16"),bg=background_color)
     self.question_label.grid(row=1, padx=10, pady=10)
 
     
 
     #Radio button 1
-    self.rb1= Radiobutton(self.quiz_frame, text=questions_answers[qnum][1], font=("Helvetica","11"), bg=background_color,value=1,padx=10,pady=10,
+    self.rb1= Radiobutton(window, text=questions_answers[qnum][1], font=("Helvetica","11"), bg=background_color,value=1,padx=10,pady=10,
                 variable=self.var1, background = background_color)
     self.rb1.grid(row=2, sticky=W)
      
     #Radio button 2
-    self.rb2= Radiobutton(self.quiz_frame, text=questions_answers[qnum][2], font=("Noto Serif","11"), bg=background_color,value=2,padx=10,pady=10,
+    self.rb2= Radiobutton(window, text=questions_answers[qnum][2], font=("Noto Serif","11"), bg=background_color,value=2,padx=10,pady=10,
                 variable=self.var1, background = background_color)
     self.rb2.grid(row=3, sticky=W)
 
     #Radio button 3
-    self.rb3= Radiobutton(self.quiz_frame, text=questions_answers[qnum][3], font=("Noto Serif","11"), bg=background_color,value=3,padx=10,pady=10,
+    self.rb3= Radiobutton(window, text=questions_answers[qnum][3], font=("Noto Serif","11"), bg=background_color,value=3,padx=10,pady=10,
                 variable=self.var1, background = background_color)
     self.rb3.grid(row=4, sticky=W)
      
     #Radio button 4
-    self.rb4= Radiobutton(self.quiz_frame, text=questions_answers[qnum][4], font=("Noto Serif","11"), bg=background_color,value=4,padx=10,pady=10,
+    self.rb4= Radiobutton(window, text=questions_answers[qnum][4], font=("Noto Serif","11"), bg=background_color,value=4,padx=10,pady=10,
                 variable=self.var1, background = background_color)
     self.rb4.grid(row=5, sticky=W)
 
 
     #confirm Button
-    self.quiz_instance= Button(self.quiz_frame, text="Confirm", font=("Noto Serif", "12", "bold"), bg="SpringGreen3")#, command=self.test_progress)
-    self.quiz_instance.grid(row=7, padx=5, pady=5)
+    self.confirm_button= Button(window, text="Confirm", font=("Noto Serif", "12", "bold"), bg="SpringGreen3",command=self.test_progress)
+    self.confirm_button.grid(row=7, padx=5, pady=5)
 
     #score Label
-    self.score_label=Label(self.quiz_frame, text="SCORE", font=("Tw Cen MT", "16"), bg=background_color,)
+    self.score_label=Label(window, text="SCORE", font=("Tw Cen MT", "16"), bg=background_color)
     self.score_label.grid(row=8, padx=10, pady=1)
 
-  def question_setup(self):
+  def questions_setup(self):
         randomiser()
         self.var.set(0)
         self.question_label.config(text=questions_answers[qnum][0])
@@ -181,27 +181,56 @@ class Quiz:
         self.rb1.config(text=questions_answers[qnum][2])
         self.rb1.config(text=questions_answers[qnum][3])
         self.rb1.config(text=questions_answers[qnum][4])
-        self.rb1.config(text=questions_answers[qnum][5])
-        self.rb1.config(text=questions_answers[qnum][6])
-        self.rb1.config(text=questions_answers[qnum][7])
-        self.rb1.config(text=questions_answers[qnum][8])
-        self.rb1.config(text=questions_answers[qnum][9])
-        self.rb1.config(text=questions_answers[qnum][10])
+       
+  def test_progress(self):
+      global score
+      score = 0
+      scr_label=self.score_label
+      choice=self.var1.get()
+      if len(asked)>10:
+        if choice == questions_answers[qnum][6]:
+          score +=1
+          scr_label.configure(text=score)
+          self.confirm_button.config(text="Confirm")
+         
+         
+        else:
+          score+=0
+          scr_label.configure(text="The correct answer was: "+ questions_answers[qnum][5] )
+          self.confirm_button.config(text="confirm")
+          
+     
+      else:
+            if choice==0:
+              self.confirm_button.config(text="Try Again, you didn't select an option then submit again" )
+              choice=self.var1.get()
+            else:
+              if choice == questions_answers[qnum][6]:
+                score+=1
+                scr_label.configure(text=score)
+                self.confirm_button.config(text="confirm")
+                self.questions_setup()
+ 
+              else:
+                  score+=0
+                  scr_label.configure(text="The correct answer was: " + questions_answers[qnum][5])
+                  self.confirm_button.config(text="Confirmn")
+                  self.questions_setup()
     
 
 
 #************** Starting Point of Program *************#
 if __name__ == '__main__':
-  root = Tk()
-  root.title('Basketball General Knowledge Quiz')
-  root.geometry('500x300')
+  window = Tk()
+  window.title('Basketball General Knowledge Quiz')
+  window.geometry('500x300')
   bg_image = Image.open('real basketball.png')
   bg_image = bg_image.resize((500, 300),Image.ANTIALIAS)
   bg_image = ImageTk.PhotoImage(bg_image)
-  image_label= Label(root, image=bg_image)
+  image_label= Label(window, image=bg_image)
   image_label.place(x=0, y=0, relwidth=1, relheight=1)
-  quiz_starter_window = QuizStarter(root)
-  root.mainloop()
+  quiz_starter_window = QuizStarter(window)
+  window.mainloop()
 
 
    
