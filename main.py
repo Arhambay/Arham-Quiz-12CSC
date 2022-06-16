@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 names = []
 global questions_answer
 asked =  []
+score=0
 
 
 #dictianary has key of number( for each question number) and : the value for each is a list that has 7 items, so index 0 to 6
@@ -184,21 +185,20 @@ class Quiz:
        
   def test_progress(self):
       global score
-      score = 0
       scr_label=self.score_label
       choice=self.var1.get()
-      if len(asked)>10:
+      if len(asked)>9:
         if choice == questions_answers[qnum][6]:
           score +=1
           scr_label.configure(text=score)
           self.confirm_button.config(text="Confirm")
-         
+          
          
         else:
           score+=0
           scr_label.configure(text="The correct answer was: "+ questions_answers[qnum][5] )
           self.confirm_button.config(text="confirm")
-          
+         
      
       else:
             if choice==0:
