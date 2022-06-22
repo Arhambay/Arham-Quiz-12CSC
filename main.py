@@ -109,7 +109,7 @@ class Quiz:
         'Free Throws', #item 6, index 5 will be the write statement we need to display the right statement if the users enters wrong choice
         2], #item 7,index 6 will be the position of the right answer (index whre right answer sits), this will be out check if answer is correct or not
 
-    9: ["When your team gets possession, you have a limited number of time based on what?" #item 1 index 0 will be the question
+    9: ["When your team gets possession, you have a limited number of time based on what?", #item 1 index 0 will be the question
         'Shooting Timer', #item 2, index 1 will be first choice
         'Possession Clock', #item 3, index 2 will be second choice
         'Shot Clock',  #item 4, index 3 will be thrid choice
@@ -191,7 +191,7 @@ class Quiz:
      
       else:
             if choice==0:
-              self.confirm_button.config(text="Try Again, you didn't select an option then submit again" )
+              self.confirm_button.config(text="Please select an option" )
               choice=self.con1.get()
             else:
               if choice == self.quiz_collection[qnum][6]:
