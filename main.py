@@ -164,6 +164,9 @@ class Quiz:
     self.score_label=Label(window, text="SCORE", font=("Tw Cen MT", "16"), bg=background_color)
     self.score_label.grid(row=8, padx=10, pady=1)
 
+    self.exit=Button(window,text="Exit",font=("Helvetica","13","bold"),bg="red",command=self.end_screen)
+    self.exit.place(x=50,y=235)  
+
   #check what is wrong in this method that is editing the radio buttons
   def questions_setup(self):
         random_questions()
@@ -183,6 +186,7 @@ class Quiz:
           score +=1
           scr_label.configure(text=score)
           self.confirm_button.config(text="Confirm")
+          self.end_screen()
          
         else:
           score+=0
@@ -205,7 +209,65 @@ class Quiz:
                   scr_label.configure(text="The correct answer was: " + self.quiz_collection[qnum][5])
                   self.confirm_button.config(text="Confirm")
                   self.questions_setup()
-    
+
+
+  def end_screen(self):
+    window.destroy()
+    end_object=End()
+    name=names[0]
+    file=open("leaderboard.txt","a")
+   
+    if name=="Arham_reset":
+      file=open("leaderboard.txt","w")
+    else:
+      file.write(str(score))
+      file.write(" - ")
+      file.write(name+"\n")
+      file.close
+   
+    inputFile = open("leaderBoard.txt","r")
+    lineList = inputFile.readlines()
+    lineList.sort()
+    top=[]
+    top5=(lineList[-5:])
+    for line in top5:
+      point=line.split(" - ")
+      top.append((int(point[0]),point[1]))
+    file.close()
+    top.sort()
+    top.reverse()
+    return_string = ""
+    for i in range(len(top)):
+      return_string+="{} - {}\n".format(top[i][0],top[i][1])
+    print(return_string)
+
+    open_end_object=End()
+    open_end_object.listLabel.config(text=return_string)
+
+
+                
+
+class End:
+  def _innit_(self):
+    background="OldLace"
+    self.end_box= Toplevel(window)
+    self.end_box.title("End Box")
+
+    self.end_frame = Frame (self.end_box,width=1000,height=1000,bg=background)
+    self.end_frame.grid(row=1)
+
+    end.heading = Label(self.end_frame,text='Well Done',font=('Tw Cen Mt',22,'bold'),bg=background)
+    end.heading.grid(row=0)
+
+    exit.button=Button (self.end_frame,text='Exit',width=10,bg="indianRed1",font=('Tw Cen Mt',12,'bold'),command=self.close_end)
+    exit_button.grid(row=4)
+
+    self.listLabel = Label(self.end_frame,text="1st Place Available",font=('Tw Cen MT'),width=40,bg=backround)
+    self.listLabel.grid(column=0,row=2)
+
+    def close_end(self):
+      self.end_box.destroy()
+      window.destroy()
 
 
 #************** Starting Point of Program *************#
