@@ -1,6 +1,7 @@
 from tkinter import *
 import random
 from PIL import Image, ImageTk
+from tkinter import messagebox
 
 names = []
 
@@ -19,24 +20,44 @@ def random_questions():
 class QuizStarter:
 
   def __init__(self, parent):
- 
+    
+    background_color="darkorange"
   
     #users input is taken by an Entry Widget
     self.entry_box=Entry(window)
-    self.entry_box.place(x=325, y=210)
+    self.entry_box.place(x=325, y=315)
 
   #continue Button
     self.continue_button = Button (window, text="START QUIZ", bg="azure3", command=self.name_collection)
-    self.continue_button.place(x=355, y=250)
+    self.continue_button.place(x=355, y=350)
 
   def name_collection(self):
     name = self.entry_box.get()
-    names.append(names)
-    print(names)
-    self.entry_box.destroy()
-    self.continue_button.destroy()
-    image_label.destroy()
-    Quiz(window)
+    if name == '':
+            messagebox.showerror('Name is required!',
+                                 'Please enter your name')
+    elif len(name) > 15:
+
+                           
+
+            messagebox.showerror('limit error',
+                                 'please enter a name between 1 and 15 characters'
+                                 )
+    elif name.isnumeric():
+            messagebox.showerror('Name error',
+                                 'Name can only consist of letters'
+                                 )
+    elif  not name.isalpha():
+                messagebox.showerror('test',
+                'name cant consist of symbols')
+    else:
+     names.append(names)
+        
+     print(names)
+     self.entry_box.destroy()
+     self.continue_button.destroy()
+     image_label.destroy()
+     Quiz(window)
 
 
 
@@ -45,7 +66,7 @@ class Quiz:
     background_color="darkorange"
     #dictianary has key of number( for each question number) and : the value for each is a list that has 7 items, so index 0 to 6
     self.quiz_collection = {
-    1: ["How many players are on the court from each team?", #item 1 index 0 will be the question
+    1: ["How many players are on the court from\n each team?", #item 1 index 0 will be the question
         '7 players', #item 2, index 1 will be first choice
         '5 players', #item 3, index 2 will be second choice
         '10 players', #item 4, index 3 will be thrid choice
@@ -69,7 +90,7 @@ class Quiz:
         '12 minutes', #item 6, index 5 will be the write statement we need to display the right statement if the users enters wrong choice
         3], #item 7,index 6 will be the position of the right answer (index whre right answer sits), this will be out check if answer is correct or not
 
-    4: ["What is it called if you illegally dribble the basketball with both hands at once?", #item 1 index 0 will be the question
+    4: ["What is it called if you illegally dribble\n the basketball with both hands at once?", #item 1 index 0 will be the question
         'Double Dribble', #item 2, index 1 will be first choice
         'Illegal Touching', #item 3, index 2 will be second choice
         'Double Fault', #item 4, index 3 will be thrid choice
@@ -93,7 +114,7 @@ class Quiz:
         'Backboard',  #item 6, index 5 will be the write statement we need to display the right statement if the users enters wrong choice
         1], #item 7,index 6 will be the position of the right answer (index whre right answer sits), this will be out check if answer is correct or not
 
-    7: ["How long are defending players allowed to stand in the paint for?", #item 1 index 0 will be the question
+    7: ["How long are defending players allowed to\n stand in the paint for?", #item 1 index 0 will be the question
         '10 seconds', #item 2, index 1 will be first choice
         '24 seconds', #item 3, index 2 will be second choice
         '5 seconds', #item 4, index 3 will be thrid choice
@@ -101,7 +122,7 @@ class Quiz:
         '3 seconds', #item 6, index 5 will be the write statement we need to display the right statement if the users enters wrong choice
         4], #item 7,index 6 will be the position of the right answer (index whre right answer sits), this will be out check if answer is correct or not
 
-    8: ["When play is stopped and a player takes shots at the foul line, what are those shots called?", #item 1 index 0 will be the question
+    8: ["When play is stopped and a player takes\n shots at the foul line, what are those shots called?", #item 1 index 0 will be the question
         'jumpers', #item 2, index 1 will be first choice
         'Free Throws', #item 3, index 2 will be second choice
         'Dunk from a distance',  #item 4, index 3 will be thrid choice
@@ -109,7 +130,7 @@ class Quiz:
         'Free Throws', #item 6, index 5 will be the write statement we need to display the right statement if the users enters wrong choice
         2], #item 7,index 6 will be the position of the right answer (index whre right answer sits), this will be out check if answer is correct or not
 
-    9: ["When your team gets possession, you have a limited number of time based on what?", #item 1 index 0 will be the question
+    9: ["When your team gets possession, you have a limited \nnumber of time based on what?", #item 1 index 0 will be the question
         'Shooting Timer', #item 2, index 1 will be first choice
         'Possession Clock', #item 3, index 2 will be second choice
         'Shot Clock',  #item 4, index 3 will be thrid choice
@@ -118,7 +139,7 @@ class Quiz:
         3], #item 7,index 6 will be the position of the right answer (index whre right answer sits), this will be out check if answer is correct or not
 
   
-    10: ["How many fouls does an NBA player get before they foul out?", #item 1 index 0 will be the question
+    10: ["How many fouls does an NBA player get\n before they foul out?", #item 1 index 0 will be the question
          '6', #item 2, index 1 will be first choice
          '5', #item 3, index 2 will be second choice
          '3',  #item 4, index 3 will be thrid choice
@@ -131,41 +152,41 @@ class Quiz:
     self.quiz_frame=Frame(parent, bg = background_color, padx=40, pady=40)
     self.quiz_frame.grid()
     random_questions()
-    self.question_label=Label(window, text= self.quiz_collection[qnum][0], font=("Helvetica","16"),bg=background_color)
+    self.question_label=Label(self.quiz_frame, text= self.quiz_collection[qnum][0], font=("Helvetica","16"),bg=background_color, background = background_color)
     self.question_label.grid(row=1, padx=10, pady=10)
 
     
     #Radio button 1
-    self.rb1= Radiobutton(window, text=self.quiz_collection[qnum][1], font=("Helvetica","11"), bg=background_color,value=1,padx=10,pady=10,
+    self.rb1= Radiobutton(self.quiz_frame, text=self.quiz_collection[qnum][1], font=("Helvetica","11"), bg=background_color,value=1,padx=10,pady=10,
                 variable=self.con1, background = background_color)
     self.rb1.grid(row=2, sticky=W)
      
     #Radio button 2
-    self.rb2= Radiobutton(window, text=self.quiz_collection[qnum][2], font=("Noto Serif","11"), bg=background_color,value=2,padx=10,pady=10,
+    self.rb2= Radiobutton(self.quiz_frame, text=self.quiz_collection[qnum][2], font=("Noto Serif","11"), bg=background_color,value=2,padx=10,pady=10,
                 variable=self.con1, background = background_color)
     self.rb2.grid(row=3, sticky=W)
 
     #Radio button 3
-    self.rb3= Radiobutton(window, text=self.quiz_collection[qnum][3], font=("Noto Serif","11"), bg=background_color,value=3,padx=10,pady=10,
+    self.rb3= Radiobutton(self.quiz_frame, text=self.quiz_collection[qnum][3], font=("Noto Serif","11"), bg=background_color,value=3,padx=10,pady=10,
                 variable=self.con1, background = background_color)
     self.rb3.grid(row=4, sticky=W)
      
     #Radio button 4
-    self.rb4= Radiobutton(window, text=self.quiz_collection[qnum][4], font=("Noto Serif","11"), bg=background_color,value=4,padx=10,pady=10,
+    self.rb4= Radiobutton(self.quiz_frame, text=self.quiz_collection[qnum][4], font=("Noto Serif","11"), bg=background_color,value=4,padx=10,pady=10,
                 variable=self.con1, background = background_color)
     self.rb4.grid(row=5, sticky=W)
 
 
     #confirm Button
-    self.confirm_button= Button(window, text="Confirm", font=("Noto Serif", "12", "bold"), bg="SpringGreen3",command=self.test_progress)
+    self.confirm_button= Button(self.quiz_frame, text="Confirm", font=("Noto Serif", "12", "bold"), bg="SpringGreen3",command=self.test_progress)
     self.confirm_button.grid(row=7, padx=5, pady=5)
 
     #score Label
-    self.score_label=Label(window, text="SCORE", font=("Tw Cen MT", "16"), bg=background_color)
+    self.score_label=Label(self.quiz_frame, text="SCORE", font=("Tw Cen MT", "16"), bg=background_color)
     self.score_label.grid(row=8, padx=10, pady=1)
 
-    self.exit=Button(window,text="Exit",font=("Helvetica","13","bold"),bg="red",command=self.end_screen)
-    self.exit.place(x=50,y=235)  
+    self.exit=Button(self.quiz_frame,text="Exit",font=("Helvetica","13","bold"),bg="red",command=self.end_screen)
+    self.exit.place(x=5,y=275)  
 
   #check what is wrong in this method that is editing the radio buttons
   def questions_setup(self):
@@ -213,68 +234,50 @@ class Quiz:
 
   def end_screen(self):
     window.destroy()
-    end_object=End()
+   
     name=names[0]
-    file=open("leaderboard.txt","a")
-   
-    if name=="Arham_reset":
-      file=open("leaderboard.txt","w")
-    else:
-      file.write(str(score))
-      file.write(" - ")
-      file.write(name+"\n")
-      file.close
-   
-    inputFile = open("leaderBoard.txt","r")
-    lineList = inputFile.readlines()
-    lineList.sort()
-    top=[]
-    top5=(lineList[-5:])
-    for line in top5:
-      point=line.split(" - ")
-      top.append((int(point[0]),point[1]))
-    file.close()
-    top.sort()
-    top.reverse()
-    return_string = ""
-    for i in range(len(top)):
-      return_string+="{} - {}\n".format(top[i][0],top[i][1])
-    print(return_string)
+    
 
     open_end_object=End()
-    open_end_object.listLabel.config(text=return_string)
+    #open_end_object.listLabel.config(text=return_string)
 
 
                 
 
 class End:
-  def _innit_(self):
-    background="OldLace"
-    self.end_box= Toplevel(window)
-    self.end_box.title("End Box")
+  def __init__(self):
+    background_color="darkorange"
+    global opening
+    opening = Tk()
+    opening.title('Basketball General Knowledge Quiz')
+    opening.geometry('500x300')
+    
 
-    self.end_frame = Frame (self.end_box,width=1000,height=1000,bg=background)
+    self.end_frame=Frame(opening,width=1000,height=1000,bg=background_color)
     self.end_frame.grid(row=1)
 
-    end.heading = Label(self.end_frame,text='Well Done',font=('Tw Cen Mt',22,'bold'),bg=background)
-    end.heading.grid(row=0)
+    self.end_heading=Label(opening,text='Flawless Attempt',font=('Tw Cen Mt',22,'bold'),bg=background_color)
+    self.end_heading.place(x=150,y=50)
 
-    exit.button=Button (self.end_frame,text='Exit',width=10,bg="indianRed1",font=('Tw Cen Mt',12,'bold'),command=self.close_end)
-    exit_button.grid(row=4)
+    self.exit_button=Button (opening,text='Exit',width=10,bg="indianRed1",font=('Tw Cen Mt',12,'bold'),command=self.close_end)
+    self.exit_button.place(x=170,y=150)
 
-    self.listLabel = Label(self.end_frame,text="1st Place Available",font=('Tw Cen MT'),width=40,bg=backround)
-    self.listLabel.grid(column=0,row=2)
+    self.listLabel=Label(opening,text="Feel free to play again",font=('Tw Cen Mt',12,'bold'),width=40,bg=background_color)
+    self.listLabel.place(x=25,y=100)
 
-    def close_end(self):
-      self.end_box.destroy()
-      window.destroy()
+  def close_end(self):
+      self.end_frame.destroy()
+      self.end_heading.destroy()
+      self.exit_button.destroy()
+      self.listLabel.destroy()
+      opening.destroy()
 
 
 #************** Starting Point of Program *************#
 if __name__ == '__main__':
   window = Tk()
   window.title('Basketball General Knowledge Quiz')
-  window.geometry('500x300')
+  window.geometry('500x500')
   bg_image = Image.open('real basketball.png')
   bg_image = bg_image.resize((500, 300),Image.ANTIALIAS)
   bg_image = ImageTk.PhotoImage(bg_image)
