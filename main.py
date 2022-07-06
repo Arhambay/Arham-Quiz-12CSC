@@ -1,13 +1,21 @@
-from tkinter import *
-import random
+#Arham marzook #19002
+#12CSC Quiz game 2022
+
+from tkinter import * #importing tkinter template and GUI Widgets
+import random  #importing randomiser function
 from PIL import Image, ImageTk
 from tkinter import messagebox
 
+#list that names are save to
 names = []
 
+#list that asked questions are added to so they dont get reapeated
 asked =  []
+
+#initial score value
 score=0
 
+#method that generates random questions
 def random_questions():
   global qnum 
   qnum = random.randint(1,10)
@@ -28,10 +36,11 @@ class QuizStarter:
     self.entry_box.place(x=325, y=315)
 
   #continue Button
-    self.continue_button = Button (window, text="START QUIZ", bg="azure3", command=self.name_collection)
+    self.continue_button = Button (window, text="START QUIZ", bg="azure3", command=self.name_saver)
     self.continue_button.place(x=355, y=350)
 
-  def name_collection(self):
+  #method that checks and saves names to the names list and destroys frame
+  def name_saver(self):
     name = self.entry_box.get()
     if name == '':
             messagebox.showerror('Name is required!',
@@ -60,7 +69,7 @@ class QuizStarter:
      Quiz(window)
 
 
-
+#Main questions and suppoting page
 class Quiz:
   def __init__(self, parent):
     background_color="darkorange"
@@ -148,6 +157,8 @@ class Quiz:
         1], #item 7,index 6 will be the position of the right answer (index whre right answer sits), this will be out check if answer is correct or not
   
   }
+
+    #variable that saves users answer
     self.con1 = IntVar()
     self.quiz_frame=Frame(parent, bg = background_color, padx=40, pady=40)
     self.quiz_frame.grid()
@@ -178,7 +189,7 @@ class Quiz:
 
 
     #confirm Button
-    self.confirm_button= Button(self.quiz_frame, text="Confirm", font=("Noto Serif", "12", "bold"), bg="SpringGreen3",command=self.test_progress)
+    self.confirm_button= Button(self.quiz_frame, text="Confirm", font=("Noto Serif", "12", "bold"), bg="SpringGreen3",command=self.score)
     self.confirm_button.grid(row=7, padx=5, pady=5)
 
     #score Label
@@ -188,8 +199,8 @@ class Quiz:
     self.exit=Button(self.quiz_frame,text="Exit",font=("Helvetica","13","bold"),bg="red",command=self.end_screen)
     self.exit.place(x=5,y=275)  
 
-  #check what is wrong in this method that is editing the radio buttons
-  def questions_setup(self):
+  #Method that changes labels to match key in quiz.collection
+  def questions_structure(self):
         random_questions()
         self.con1.set(0)
         self.question_label.config(text=self.quiz_collection[qnum][0])
@@ -197,8 +208,10 @@ class Quiz:
         self.rb2.config(text=self.quiz_collection[qnum][2])
         self.rb3.config(text=self.quiz_collection[qnum][3])
         self.rb4.config(text=self.quiz_collection[qnum][4])
-       
-  def test_progress(self):
+
+
+  #Method that checks the answer and score system
+  def score(self):
       global score
       scr_label=self.score_label
       choice=self.con1.get()
@@ -223,15 +236,16 @@ class Quiz:
                 score+=1
                 scr_label.configure(text=score)
                 self.confirm_button.config(text="confirm")
-                self.questions_setup()
+                self.questions_structure()
  
               else:
                   score+=0
                   scr_label.configure(text="The correct answer was: " + self.quiz_collection[qnum][5])
                   self.confirm_button.config(text="Confirm")
-                  self.questions_setup()
+                  self.questions_structure()
 
 
+  #method for finishing the quiz
   def end_screen(self):
     window.destroy()
    
@@ -239,11 +253,11 @@ class Quiz:
     
 
     open_end_object=End()
-    #open_end_object.listLabel.config(text=return_string)
+    
 
 
                 
-
+#end screen
 class End:
   def __init__(self):
     background_color="darkorange"
@@ -265,6 +279,7 @@ class End:
     self.listLabel=Label(opening,text="Feel free to play again",font=('Tw Cen Mt',12,'bold'),width=40,bg=background_color)
     self.listLabel.place(x=25,y=100)
 
+  #method to end quiz and destroy quiz entire quiz window
   def close_end(self):
       self.end_frame.destroy()
       self.end_heading.destroy()
@@ -286,40 +301,3 @@ if __name__ == '__main__':
   quiz_starter_window = QuizStarter(window)
   window.mainloop()
 
-
-   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
